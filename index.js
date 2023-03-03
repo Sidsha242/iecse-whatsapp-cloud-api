@@ -51,11 +51,11 @@ app.post("/webhook", (req, res) => {
 
         if (
 
-            body_param.entry &&
-            body_param.entry[0].changes &&
-            body_param.entry[0].changes[0] &&
-            body_param.entry[0].changes[0].value.messages &&
-            body_param.entry[0].changes[0].value.messages[0] &&
+            body_param.entry &
+            body_param.entry[0].changes &
+            body_param.entry[0].changes[0] &
+            body_param.entry[0].changes[0].value.messages &
+            body_param.entry[0].changes[0].value.messages[0] &
             body_param.entry[0].changes[0].value.messages[0].text
 
         ) {
@@ -81,12 +81,11 @@ app.post("/webhook", (req, res) => {
 
 
         else if (
-
-            body_param.entry &&
-            body_param.entry[0].changes &&
-            body_param.entry[0].changes[0] &&
-            body_param.entry[0].changes[0].value.messages &&
-            body_param.entry[0].changes[0].value.messages[0] &&
+            body_param.entry &
+            body_param.entry[0].changes &
+            body_param.entry[0].changes[0] &
+            body_param.entry[0].changes[0].value.messages &
+            body_param.entry[0].changes[0].value.messages[0] &
             body_param.entry[0].changes[0].value.messages[0].button
 
         ) {
