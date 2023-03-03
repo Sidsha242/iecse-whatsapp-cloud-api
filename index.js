@@ -56,7 +56,7 @@ app.post("/webhook", (req, res) => {
             body_param.entry[0].changes[0] &&
             body_param.entry[0].changes[0].value.messages &&
             body_param.entry[0].changes[0].value.messages[0] &&
-            body_param.entry[0].changes[0].value.messages[0].text
+            body_param.entry[0].changes[0].value.messages[0].type == 'text'
 
         ) {
 
@@ -86,7 +86,7 @@ app.post("/webhook", (req, res) => {
             body_param.entry[0].changes[0] &&
             body_param.entry[0].changes[0].value.messages &&
             body_param.entry[0].changes[0].value.messages[0] &&
-            body_param.entry[0].changes[0].value.messages[0].button
+            body_param.entry[0].changes[0].value.messages[0].type == 'button'
 
         ) {
             let button = body_param.entry[0].changes[0].value.messages[0].button.payload;
