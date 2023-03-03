@@ -40,17 +40,20 @@ app.post("/webhook", (req, res) => {
 
     let body_param = req.body;
 
-    // console.log(JSON.stringify(body_param, null, 2));
+    console.log(JSON.stringify(body_param, null, 2));
 
 
     if (body_param.object) {
+
+
         if (
 
             body_param.entry &&
             body_param.entry[0].changes &&
             body_param.entry[0].changes[0] &&
             body_param.entry[0].changes[0].value.messages &&
-            body_param.entry[0].changes[0].value.messages[0]
+            body_param.entry[0].changes[0].value.messages[0] &&
+            body_param.entry[0].changes[0].value.messages[0].text
 
         ) {
 
@@ -58,10 +61,38 @@ app.post("/webhook", (req, res) => {
             let from = body_param.entry[0].changes[0].value.messages[0].from;
             let msg_body = body_param.entry[0].changes[0].value.messages[0].text.body;
 
-            let button = body_param.entry[0].changes[0].value.messages[0].button.payload;
 
             console.log(from);
             console.log(msg_body);
+
+            axios({
+                method: "POST",
+                url: "https://graph.facebook.com/v15.0/" + phone_number_id + "/messages?access_token=" + token,
+                data: {
+                    messaging_product: "whatsapp",
+                    to: from,
+                    text: {
+                        body: "Hi ..I have received your message " + msg_body
+                    }
+                },
+                headers: { "Content-Type": "application/json" },
+            });
+
+
+        }
+
+
+        else if (
+
+            body_param.entry &&
+            body_param.entry[0].changes &&
+            body_param.entry[0].changes[0] &&
+            body_param.entry[0].changes[0].value.messages &&
+            body_param.entry[0].changes[0].value.messages[0] &&
+            body_param.entry[0].changes[0].value.messages[0].button
+
+        ) {
+            let button = body_param.entry[0].changes[0].value.messages[0].button.payload;
             console.log(button);
 
             if (button === 'Yes-Button-Payload') {
@@ -72,7 +103,7 @@ app.post("/webhook", (req, res) => {
                         messaging_product: "whatsapp",
                         to: from,
                         text: {
-                            body: "Great..looking forward on seeing you for the interview!!"//+ msg_body
+                            body: "Great..looking forward on seeing you for the interview!!"
                         }
                     },
                     headers: { "Content-Type": "application/json" },
@@ -86,7 +117,7 @@ app.post("/webhook", (req, res) => {
                         messaging_product: "whatsapp",
                         to: from,
                         text: {
-                            body: "We will send you a new timeslot in a while"//+ msg_body
+                            body: "We will send you a new timeslot in a while"
                         }
                     },
                     headers: { "Content-Type": "application/json" },
@@ -94,14 +125,13 @@ app.post("/webhook", (req, res) => {
 
             }
 
-            res.sendStatus(200);
-        }
-        else {
-            res.sendStatus(404);
         }
 
+        res.sendStatus(200);
 
-
+    }
+    else {
+        res.sendStatus(404);
     }
 });
 
